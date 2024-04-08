@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Idul Fitri</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Open Sans", sans-serif;
+            background-color: #08b097;
+            color: white;
+            padding: 20px;
+        }
+        #clock {
+            color: white;
+            font-size: 50px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .animated-text-container {
+            width: 100%;
+        }
+        .animated-text {
+            margin: 0;
+        }
+
+        @keyframes typeWriter {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        .animated-text::after {
+            content: "|"; 
+            animation: cursorBlink 1s infinite;
+        }
+
+        @keyframes cursorBlink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .ramadhan-image {
+            max-width: 100px;
+            margin-left: 20px;
+            opacity: 0; 
+        }
+
+        @keyframes fadeInImage {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="clock"></div>
+    <div class="animated-text-container">
+        <h3 class="animated-text"></h3>
+        <br>
+        <img src="ramadhan.png" alt="" class="ramadhan-image">
+    </div>
+    <script>
+        const texts = [
+            "Kami Mengucapkan Minal Aidin Wal Faidzin 1 Syawal 1445 H",
+            "Selamat Hari Raya Idul Fitri &#127881;",
+            "Mohon Maaf Lahir dan Batin &#128591;",
+        ];
+
+        const textElement = document.querySelector('.animated-text');
+        const ramadhanImage = document.querySelector('.ramadhan-image');
+        let index = 0;
+        let words = texts[index].split(" ");
+        let wordIndex = 0;
+
+        function type() {
+            if (index < texts.length) {
+                if (wordIndex < words.length) {
+                    textElement.innerHTML += words[wordIndex] + " ";
+                    wordIndex++;
+                    setTimeout(type, 200);
+                } else {
+                    index++;
+                    if (index < texts.length) {
+                        words = texts[index].split(" ");
+                        wordIndex = 0;
+                        textElement.innerHTML += "<br>"; 
+                        if (index === 2) {
+                            ramadhanImage.style.animation = 'fadeInImage 1s forwards';
+                        }
+                        setTimeout(type, 1000);
+                    } else {
+                        textElement.style.animation = 'none';
+                        textElement.innerHTML = textElement.innerHTML.replace("|", "");
+                    }
+                }
+            }
+        }
+
+        setTimeout(type, 1000); // initial delay
+
+        setInterval(() => {
+            let date = new Date();
+            let clock = document.getElementById('clock');
+            clock.innerHTML =
+                date.getHours() + ":" +
+                date.getMinutes() + ":" +
+                date.getSeconds()
+        }, 1000);
+    </script>
+</body>
+</html>
